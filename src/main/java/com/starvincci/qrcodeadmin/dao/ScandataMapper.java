@@ -1,12 +1,17 @@
 package com.starvincci.qrcodeadmin.dao;
 
+import com.starvincci.qrcodeadmin.pojo.Employee;
 import com.starvincci.qrcodeadmin.pojo.Prdmoedl;
+import com.starvincci.qrcodeadmin.pojo.Prdno;
 import com.starvincci.qrcodeadmin.pojo.Scandata;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * @author jdp
+ */
 @Mapper
 public interface ScandataMapper {
 
@@ -51,5 +56,40 @@ public interface ScandataMapper {
      * @return
      */
     List<Process> getPrdmoedl(@Param("facno") String facno);
+
+    /**
+     * 查询用户姓名
+     * @param workno 工号
+     * @return
+     */
+    Employee selectname(String workno);
+
+    /**
+     * 查询所有制单信息
+     * @return
+     */
+    List<Prdno> selectPrd();
+
+    /**
+     * 查询款号
+     * @param prdno 制单号
+     * @return
+     */
+    Prdno selectPrdByprdno(String prdno);
+
+    /**
+     * 查询扫码数据中的
+     * @param facno 款号
+     * @return
+     */
+    List<Scandata> getdataByfacno(String facno);
+
+    /**
+     * 获取所有制单数据
+     * @return
+     */
+    List<Prdno> getAllprd();
+
+
 
 }

@@ -1,10 +1,15 @@
 package com.starvincci.qrcodeadmin.service;
 
+import com.starvincci.qrcodeadmin.pojo.Employee;
 import com.starvincci.qrcodeadmin.pojo.Prdmoedl;
+import com.starvincci.qrcodeadmin.pojo.Prdno;
 import com.starvincci.qrcodeadmin.pojo.Scandata;
 
 import java.util.List;
 
+/**
+ * @author jdp
+ */
 public interface ScandataService {
     /**
      * 添加扫描结果到数据库中
@@ -39,7 +44,38 @@ public interface ScandataService {
      */
     List<Scandata> selectScandInfo(Scandata scandata);
 
+    /**
+     * 获取工序号
+     * @param facno 款号
+     * @return
+     */
     List<Process> getPrdmoedl(String facno);
 
+    /**
+     * 查询用户姓名
+     * @param workno 工号
+     * @return
+     */
+    Employee selectname(String workno);
+
+    /**
+     * 获取所有制单数据
+     * @return
+     */
+    List<Prdno> getAllprd();
+
+    /**
+     * 查询款号
+     * @param prdno 制单号
+     * @return
+     */
+    Prdno selectPrdByprdno(String prdno);
+
+    /**
+     * 查询扫码数据中的
+     * @param facno 款号
+     * @return
+     */
+    List<Scandata> getdataByfacno(String facno);
 
 }

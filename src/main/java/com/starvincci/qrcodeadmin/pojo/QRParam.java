@@ -1,5 +1,8 @@
 package com.starvincci.qrcodeadmin.pojo;
 
+/**
+ * @author jdp
+ */
 public class QRParam {
     private String strs;//扫描的结果
     private String jobNum;//扫描时输入的工号

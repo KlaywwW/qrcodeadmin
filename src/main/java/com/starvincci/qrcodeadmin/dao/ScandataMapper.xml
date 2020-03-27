@@ -4,26 +4,116 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.starvincci.qrcodeadmin.dao.ScandataMapper">
    <insert id="addScandata" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata">
-       INSERT INTO scan_data VALUES (#{workno},#{prdno},#{facno},#{bedno},#{seq},#{color},#{size},#{item},#{descn},#{qty},#{recqty},#{recdate});
+       INSERT INTO scan_data VALUES (#{workno},#{prdno},#{facno},#{bedno},#{seq},#{color},#{size},#{item},#{descn},#{qty},#{recqty},#{recdate},#{recdate1});
    </insert>
 
-    <select id="selectScandataByworkNo" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata">
-        SELECT * FROM scan_data WHERE workno=#{workno} AND recdate BETWEEN #{zerodate} AND #{recdate}
+    <select id="selectScandataByworkNo" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">
+        select sd.id,sd.workno,sd.prdno,sd.facno,sd.bedno,sd.seq,sd.color,sd.[size],sd.item,sd.qty,sd.recqty,sd.recdate,prd.item as pritem,prd.descn from scan_data sd
+        INNER JOIN prdmoedl prd on sd.item=prd.item
+ WHERE workno=#{workno} AND recdate BETWEEN #{zerodate} AND #{recdate}
     </select>
 
-    <select id="selectScandaaByDate" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata">
-        select prdno,facno,Sum(qty) as sumqty, item,workno  from scan_data  where workno=#{workno} and  recdate BETWEEN #{zerodate} and #{recdate}  group by prdno,facno,item,workno order by prdno,facno,item
+    <select id="selectScandaaByDate" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prdpro">
+--         select prdno,facno,Sum(qty) as sumqty, item,workno  from scan_data
+
+        select Sum(qty) as sumqty,sd.workno,sd.prdno,sd.facno,sd.item,sd.recdate1 from scan_data sd
+
+        where sd.workno=#{workno} and  sd.recdate BETWEEN #{zerodate} and #{recdate}  group by sd.prdno,sd.facno,sd.item,sd.workno,sd.recdate1 order by sd.recdate1,sd.prdno,sd.facno,sd.item
     </select>
 
     <select id="checkOnly" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata">
         select * from scan_data where prdno=#{prdno} and facno=#{facno} and bedno=#{bedno} and seq=#{seq} and item=#{item} AND workno=#{workno}
     </select>
 
-    <select id="selectScandInfo" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata">
-        select * from scan_data where workno=#{workno} and item=#{item} and prdno=#{prdno} and facno=#{facno}
+    <select id="selectScandInfo" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">
+--         select * from scan_data
+        select sd.id,sd.workno,sd.prdno,sd.facno,sd.bedno,sd.seq,sd.color,sd.[size],sd.item,sd.qty,sd.recqty,sd.recdate,prd.item as pritem,prd.descn from scan_data sd
+        INNER JOIN prdmoedl prd on sd.item=prd.item
+        where sd.workno=#{workno} and sd.item=#{item} and sd.prdno=#{prdno} and sd.facno=#{facno} and sd.recdate1=#{recdate1}
     </select>
     <select id="getPrdmoedl" resultType="com.starvincci.qrcodeadmin.pojo.Prdmoedl">
         SELECT * FROM prdmoedl WHERE facno=#{facno}
     </select>
 
+    <select id="selectname" resultType="com.starvincci.qrcodeadmin.pojo.Employee">
+        select * from employee where workno=#{workno}
+    </select>
+    
+    <select id="selectPrd" resultType="com.starvincci.qrcodeadmin.pojo.Prdmoedl">
+        SELECT * FROM prdmoedl
+    </select>
+
+    <select id="getdataByfacno" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">
+   SELECT
+	sd.id,
+	sd.workno,
+	sd.prdno,
+	sd.facno,
+	sd.bedno,
+	sd.seq,
+	sd.color,
+	sd.[size],
+	sd.item,
+	sd.qty,
+	sd.recqty,
+	sd.recdate,
+	prd.item AS pritem,
+	prd.descn,
+    pn.prdnum
+FROM
+	scan_data sd
+INNER JOIN prdmoedl prd ON sd.item = prd.item
+INNER JOIN prdno pn ON pn.facno=sd.facno
+        WHERE sd.facno=#{facno}
+    </select>
+    <select id="getAllprd" resultType="com.starvincci.qrcodeadmin.pojo.Prdno">
+        select * from prdno
+    </select>
+    <select id="selectPrdByprdno" resultType="com.starvincci.qrcodeadmin.pojo.Prdno">
+        select * from prdno where prdno=#{prdno}
+    </select>
+
+    <resultMap id="prd" type="com.starvincci.qrcodeadmin.pojo.Scandata">
+        <result column="id" property="id"/>
+        <result column="workno" property="workno"/>
+        <result column="prdno" property="prdno"/>
+        <result column="facno" property="facno"/>
+        <result column="bedno" property="bedno"/>
+        <result column="seq" property="seq"/>
+        <result column="color" property="color"/>
+        <result column="size" property="size"/>
+        <result column="item" property="item"/>
+        <!--<result column="descn" property="descn"/>-->
+        <result column="qty" property="qty"/>
+        <result column="recdate" property="recdate"/>
+        <result column="recqty" property="recqty"/>
+        <association property="prdmoedl" javaType="com.starvincci.qrcodeadmin.pojo.Prdmoedl">
+            <result column="pritem" property="item" />
+            <result column="descn" property="descn"/>
+        </association>
+        <association property="prdn" javaType="com.starvincci.qrcodeadmin.pojo.Prdno">
+            <result column="prdnum" property="prdnum"></result>
+        </association>
+    </resultMap>
+    <resultMap id="prdpro" type="com.starvincci.qrcodeadmin.pojo.Scandata">
+        <result column="id" property="id"/>
+        <result column="workno" property="workno"/>
+        <result column="prdno" property="prdno"/>
+        <result column="facno" property="facno"/>
+        <result column="bedno" property="bedno"/>
+        <result column="seq" property="seq"/>
+        <result column="color" property="color"/>
+        <result column="size" property="size"/>
+        <result column="item" property="item"/>
+        <result column="descn" property="descn"/>
+        <result column="qty" property="qty"/>
+        <result column="sumqty" property="sumqty"/>
+        <result column="recdate" property="recdate"/>
+        <result column="recdate1" property="recdate1"/>
+        <result column="recqty" property="recqty"/>
+        <association property="prdmoedl" javaType="com.starvincci.qrcodeadmin.pojo.Prdmoedl">
+            <result column="pritem" property="item" />
+            <result column="descn" property="descn"/>
+        </association>
+    </resultMap>
 </mapper>

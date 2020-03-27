@@ -1,5 +1,8 @@
 package com.starvincci.qrcodeadmin.pojo;
 
+/**
+ * @author jdp
+ */
 public class Prdmoedl {
 
     private String facno;//款号

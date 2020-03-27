@@ -1,13 +1,18 @@
 package com.starvincci.qrcodeadmin.service;
 
 import com.starvincci.qrcodeadmin.dao.ScandataMapper;
+import com.starvincci.qrcodeadmin.pojo.Employee;
 import com.starvincci.qrcodeadmin.pojo.Prdmoedl;
+import com.starvincci.qrcodeadmin.pojo.Prdno;
 import com.starvincci.qrcodeadmin.pojo.Scandata;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author jdp
+ */
 @Service
 public class ScandataServiceImpl implements ScandataService {
 
@@ -42,5 +47,25 @@ public class ScandataServiceImpl implements ScandataService {
     @Override
     public List<Process> getPrdmoedl(String facno) {
         return scandataMapper.getPrdmoedl(facno);
+    }
+
+    @Override
+    public Employee selectname(String workno) {
+        return scandataMapper.selectname(workno);
+    }
+
+    @Override
+    public List<Prdno> getAllprd() {
+        return scandataMapper.getAllprd();
+    }
+
+    @Override
+    public Prdno selectPrdByprdno(String prdno) {
+        return scandataMapper.selectPrdByprdno(prdno);
+    }
+
+    @Override
+    public List<Scandata> getdataByfacno(String facno) {
+        return scandataMapper.getdataByfacno(facno);
     }
 }

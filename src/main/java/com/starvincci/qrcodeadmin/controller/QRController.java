@@ -3,9 +3,7 @@ package com.starvincci.qrcodeadmin.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.starvincci.qrcodeadmin.pojo.Prdmoedl;
-import com.starvincci.qrcodeadmin.pojo.QRParam;
-import com.starvincci.qrcodeadmin.pojo.Scandata;
+import com.starvincci.qrcodeadmin.pojo.*;
 import com.starvincci.qrcodeadmin.service.ScandataService;
 import com.starvincci.qrcodeadmin.service.ScandataServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -14,12 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 //运行时在pom文件中加入新的依赖需要重启项目，不重启重新编译会出现java.lang.NoClassDefFoundError
+
+/**
+ * @author jdp
+ */
 @Controller
 public class QRController {
 
@@ -36,7 +40,7 @@ public class QRController {
         String str = qrParam.getStrs();
         String[] splitstr = str.split("@");
         int splistlength = splitstr.length;
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:MM");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         String time = df.format(new Date());// new Date()为获取当前系统时间
 
         Scandata scandata = null;
@@ -62,6 +66,7 @@ public class QRController {
                 scandata.setWorkno(qrParam.getJobNum());
                 //日期
                 scandata.setRecdate(time);
+                scandata.setRecdate1(time);
                 Scandata scan = scandataService.checkOnly(scandata);
                 if (scan == null) {
                     //添加
@@ -90,6 +95,7 @@ public class QRController {
             scandata.setWorkno(qrParam.getJobNum());
             //日期
             scandata.setRecdate(time);
+            scandata.setRecdate1(time);
             Scandata scan = scandataService.checkOnly(scandata);
             if (scan == null) {
                 //添加
@@ -112,7 +118,7 @@ public class QRController {
         System.out.println(workno);
         Scandata scandata = new Scandata();
         scandata.setWorkno(workno);
-        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");//设置日期格式
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         String time = df2.format(new Date());
         scandata.setRecdate(time);
 
@@ -124,7 +130,7 @@ public class QRController {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         Date zero = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String zerotime = df.format(zero);
         scandata.setZerodate(zerotime);
 
@@ -139,12 +145,33 @@ public class QRController {
     public String getinfoBydate(@RequestBody String jsons) {
         QRParam qrParam = JSON.parseObject(jsons, QRParam.class);
         System.out.println(qrParam.toString());
-
+        System.out.println(jsons);
         Scandata scandata = new Scandata();
         scandata.setZerodate(qrParam.getStartDate());
+        String d=qrParam.getEndDate();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String nextDay=null;
+        try {
+            Date date=sdf.parse(d);
+            Calendar cld = Calendar.getInstance();
+            cld.setTime(date);
+            cld.add(Calendar.DATE, 1);
+            date = cld.getTime();
+            //获得下一天日期字符串
+            nextDay = sdf.format(date);
+            System.out.println("-----"+nextDay);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(nextDay);
+
         scandata.setRecdate(qrParam.getEndDate());
         scandata.setWorkno(qrParam.getJobNum());
         List<Scandata> list = scandataService.selectScandaaByDate(scandata);
+        for (Scandata sca:list) {
+            System.out.println(sca.getRecdate1());
+        }
         System.out.println(list.size());
         String jsonstr = JSON.toJSONString(list);
         System.out.println(jsonstr);
@@ -155,8 +182,28 @@ public class QRController {
     @ResponseBody
     public String getmingxi(@RequestBody String jsons) {
         Scandata scandata = JSON.parseObject(jsons, Scandata.class);
+        System.out.println(scandata.toString());
         List<Scandata> list = scandataService.selectScandInfo(scandata);
-        System.out.println(list.size());
+
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//        List<Scandata> list2=new ArrayList<>();
+//        for (Scandata scan:list) {
+//
+//            Date date= null;
+//            try {
+//                date = df.parse(scan.getRecdate());
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//
+//            String redate = df.format(date);
+//            scan.setRecdate(redate);
+//            list2.add(scan);
+//        }
+//        System.out.println(list2.size());
+
+
         String jsonstr = JSON.toJSONString(list);
         System.out.println(jsonstr);
         return jsonstr;
@@ -169,6 +216,44 @@ public class QRController {
         List<Process> list = scandataService.getPrdmoedl(facno);
         String jsonstr = JSON.toJSONString(list);
         System.out.println(jsonstr);
+        return jsonstr;
+    }
+
+    @RequestMapping("/getname")
+    @ResponseBody
+    public String getname(@RequestBody String name){
+//        System.out.println(name);
+        Employee employee=scandataService.selectname(name);
+        return employee.getName();
+    }
+
+    @RequestMapping("/getfac")
+    @ResponseBody
+    public String getfac(@RequestBody String prdno){
+//        查出制单表的所有信息
+        Prdno prd=scandataService.selectPrdByprdno(prdno);
+
+        List<Scandata> list=scandataService.getdataByfacno(prd.getFacno());
+
+        String jsonstr = JSON.toJSONString(list);
+
+        return jsonstr;
+    }
+
+    @RequestMapping("/getfacother")
+    @ResponseBody
+    public String getother(@RequestBody String prdno){
+        Prdno prd=scandataService.selectPrdByprdno(prdno);
+        String jsonstr=JSON.toJSONString(prd);
+        return jsonstr;
+    }
+
+
+    @RequestMapping("/getprd")
+    @ResponseBody
+    public String getprd(){
+        List<Prdno> prdlist=scandataService.getAllprd();
+        String jsonstr = JSON.toJSONString(prdlist);
         return jsonstr;
     }
 

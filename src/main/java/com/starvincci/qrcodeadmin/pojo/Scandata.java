@@ -1,6 +1,8 @@
 package com.starvincci.qrcodeadmin.pojo;
 
-
+/**
+ * @author jdp
+ */
 public class Scandata {
 
   private Integer id;
@@ -18,6 +20,13 @@ public class Scandata {
   private String recdate;//日期
   private String zerodate;//当日0点
   private String sumqty;//总和
+
+
+
+    private String recdate1;
+
+  private Prdmoedl prdmoedl;
+  private  Prdno prdn;
 
   @Override
   public String toString() {
@@ -37,7 +46,34 @@ public class Scandata {
             ", recdate='" + recdate + '\'' +
             ", zerodate='" + zerodate + '\'' +
             ", sumqty='" + sumqty + '\'' +
+            ", recdate1='" + recdate1 + '\'' +
+            ", prdmoedl=" + prdmoedl +
+            ", prdn=" + prdn +
             '}';
+  }
+
+  public String getRecdate1() {
+        return recdate1;
+    }
+
+    public void setRecdate1(String recdate1) {
+        this.recdate1 = recdate1;
+    }
+
+    public Prdno getPrdn() {
+    return prdn;
+  }
+
+  public void setPrdn(Prdno prdn) {
+    this.prdn = prdn;
+  }
+
+  public Prdmoedl getPrdmoedl() {
+    return prdmoedl;
+  }
+
+  public void setPrdmoedl(Prdmoedl prdmoedl) {
+    this.prdmoedl = prdmoedl;
   }
 
   public String getSumqty() {
