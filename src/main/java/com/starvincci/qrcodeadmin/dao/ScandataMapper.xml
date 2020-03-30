@@ -10,7 +10,7 @@
     <select id="selectScandataByworkNo" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">
         select sd.id,sd.workno,sd.prdno,sd.facno,sd.bedno,sd.seq,sd.color,sd.[size],sd.item,sd.qty,sd.recqty,sd.recdate,prd.item as pritem,prd.descn from scan_data sd
         INNER JOIN prdmoedl prd on sd.item=prd.item
- WHERE workno=#{workno} AND recdate BETWEEN #{zerodate} AND #{recdate}
+ WHERE workno=#{workno} AND sd.facno=prd.facno AND recdate BETWEEN #{zerodate} AND #{recdate}
     </select>
 
     <select id="selectScandaaByDate" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prdpro">
@@ -29,7 +29,7 @@
 --         select * from scan_data
         select sd.id,sd.workno,sd.prdno,sd.facno,sd.bedno,sd.seq,sd.color,sd.[size],sd.item,sd.qty,sd.recqty,sd.recdate,prd.item as pritem,prd.descn from scan_data sd
         INNER JOIN prdmoedl prd on sd.item=prd.item
-        where sd.workno=#{workno} and sd.item=#{item} and sd.prdno=#{prdno} and sd.facno=#{facno} and sd.recdate1=#{recdate1}
+        where sd.workno=#{workno} and sd.item=#{item} and sd.prdno=#{prdno} and sd.facno=#{facno} and sd.recdate1=#{recdate1} AND sd.facno=prd.facno
     </select>
     <select id="getPrdmoedl" resultType="com.starvincci.qrcodeadmin.pojo.Prdmoedl">
         SELECT * FROM prdmoedl WHERE facno=#{facno}
