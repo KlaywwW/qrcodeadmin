@@ -10,7 +10,7 @@
     <select id="selectScandataByworkNo" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">
         select sd.id,sd.workno,sd.prdno,sd.facno,sd.bedno,sd.seq,sd.color,sd.[size],sd.item,sd.qty,sd.recqty,sd.recdate,prd.item as pritem,prd.descn from scan_data sd
         INNER JOIN prdmoedl prd on sd.item=prd.item
- WHERE workno=#{workno} AND sd.facno=prd.facno AND recdate BETWEEN #{zerodate} AND #{recdate}
+ WHERE workno=#{workno} AND recdate BETWEEN #{zerodate} AND #{recdate}
     </select>
 
     <select id="selectScandaaByDate" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prdpro">
@@ -22,7 +22,7 @@
     </select>
 
     <select id="checkOnly" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata">
-        select * from scan_data where prdno=#{prdno} and facno=#{facno} and bedno=#{bedno} and seq=#{seq} and item=#{item} AND workno=#{workno}
+        select * from scan_data where prdno=#{prdno} and facno=#{facno} and bedno=#{bedno} and seq=#{seq} and item=#{item}
     </select>
 
     <select id="selectScandInfo" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">

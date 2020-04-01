@@ -33,6 +33,7 @@ public class QRController {
     @RequestMapping("/home")
     @ResponseBody
     public int show(@RequestBody String strs) {
+
         System.out.println("str---" + strs);
         QRParam qrParam = JSON.parseObject(strs, QRParam.class);
         System.out.println(qrParam.toString());
@@ -221,9 +222,9 @@ public class QRController {
 
     @RequestMapping("/getname")
     @ResponseBody
-    public String getname(@RequestBody String name){
+    public String getname(@RequestBody String workno){
 //        System.out.println(name);
-        Employee employee=scandataService.selectname(name);
+        Employee employee=scandataService.selectname(workno);
         return employee.getName();
     }
 
