@@ -8,8 +8,8 @@
    </insert>
 
     <select id="selectScandataByworkNo" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">
-        select sd.id,sd.workno,sd.prdno,sd.facno,sd.bedno,sd.seq,sd.color,sd.[size],sd.item,sd.qty,sd.recqty,sd.recdate,prd.item as pritem,prd.descn from scan_data sd
-        INNER JOIN prdmoedl prd on sd.item=prd.item
+        select sd.id,sd.workno,sd.prdno,sd.facno,sd.bedno,sd.seq,sd.color,sd.[size],sd.item,sd.qty,sd.recqty,sd.recdate,prd.descn from scan_data sd
+ INNER JOIN prdmoedl prd on sd.item=prd.item and sd.facno=prd.facno
  WHERE workno=#{workno} AND recdate BETWEEN #{zerodate} AND #{recdate}
     </select>
 
@@ -44,27 +44,11 @@
     </select>
 
     <select id="getdataByfacno" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">
-   SELECT
-	sd.id,
-	sd.workno,
-	sd.prdno,
-	sd.facno,
-	sd.bedno,
-	sd.seq,
-	sd.color,
-	sd.[size],
-	sd.item,
-	sd.qty,
-	sd.recqty,
-	sd.recdate,
-	prd.item AS pritem,
-	prd.descn,
-    pn.prdnum
-FROM
-	scan_data sd
-INNER JOIN prdmoedl prd ON sd.item = prd.item
+SELECT sd.prdno,prd.descn ,sd.facno,sum(sd.qty) as qty,prd.item AS pritem,pn.prdnum FROM scan_data sd
+INNER JOIN prdmoedl prd ON sd.item = prd.item and sd.facno=prd.facno
 INNER JOIN prdno pn ON pn.facno=sd.facno
         WHERE sd.facno=#{facno}
+        GROUP BY prd.item,sd.prdno,sd.facno,pn.prdnum,prd.descn  ORDER BY cast(prd.item as int)
     </select>
     <select id="getAllprd" resultType="com.starvincci.qrcodeadmin.pojo.Prdno">
         select * from prdno

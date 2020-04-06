@@ -235,9 +235,11 @@ public class QRController {
         Prdno prd=scandataService.selectPrdByprdno(prdno);
 
         List<Scandata> list=scandataService.getdataByfacno(prd.getFacno());
-
+        for (Scandata scan:list) {
+            System.out.println(scan);
+        }
         String jsonstr = JSON.toJSONString(list);
-
+        System.out.println(jsonstr);
         return jsonstr;
     }
 
