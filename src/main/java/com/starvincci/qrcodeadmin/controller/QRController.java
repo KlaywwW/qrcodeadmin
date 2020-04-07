@@ -1,10 +1,7 @@
 package com.starvincci.qrcodeadmin.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.starvincci.qrcodeadmin.pojo.*;
-import com.starvincci.qrcodeadmin.service.ScandataService;
 import com.starvincci.qrcodeadmin.service.ScandataServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 //运行时在pom文件中加入新的依赖需要重启项目，不重启重新编译会出现java.lang.NoClassDefFoundError
 
@@ -235,8 +229,17 @@ public class QRController {
         Prdno prd=scandataService.selectPrdByprdno(prdno);
 
         List<Scandata> list=scandataService.getdataByfacno(prd.getFacno());
+        System.out.println("before");
         for (Scandata scan:list) {
-            System.out.println(scan);
+            System.out.println(scan.getFacno()+"-"+scan.getPrdmoedl().getItem()+"-"+scan.getPrdmoedl().getDescn()+"-");
+        }
+
+//        ListUtil<Scandata> sortlist=new ListUtil<>();
+//        sortlist.sort(list,"prdmoedl.getItem","asc");
+//        System.out.println("after");
+//        List<Scandata> list=scandataService.getdataByfacno(prd.getFacno());
+        for (Scandata scan:list) {
+            System.out.println(scan.getFacno()+"-"+scan.getPrdmoedl().getItem()+"-"+scan.getPrdmoedl().getDescn()+"-");
         }
         String jsonstr = JSON.toJSONString(list);
         System.out.println(jsonstr);

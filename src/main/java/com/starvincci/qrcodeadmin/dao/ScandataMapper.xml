@@ -43,12 +43,12 @@
         SELECT * FROM prdmoedl
     </select>
 
-    <select id="getdataByfacno" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">
-SELECT sd.prdno,prd.descn ,sd.facno,sum(sd.qty) as qty,prd.item AS pritem,pn.prdnum FROM scan_data sd
+    <select id="getdataByfacno" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prdfacno">
+SELECT sd.prdno,prd.descn ,sd.facno,sum(sd.qty) as qty,prd.item,sd.item AS pritem,pn.prdnum FROM scan_data sd
 INNER JOIN prdmoedl prd ON sd.item = prd.item and sd.facno=prd.facno
 INNER JOIN prdno pn ON pn.facno=sd.facno
         WHERE sd.facno=#{facno}
-        GROUP BY prd.item,sd.prdno,sd.facno,pn.prdnum,prd.descn  ORDER BY cast(prd.item as int)
+        GROUP BY prd.item,sd.prdno,sd.item,sd.facno,pn.prdnum,prd.descn  ORDER BY cast(sd.item as int)
     </select>
     <select id="getAllprd" resultType="com.starvincci.qrcodeadmin.pojo.Prdno">
         select * from prdno
@@ -56,6 +56,19 @@ INNER JOIN prdno pn ON pn.facno=sd.facno
     <select id="selectPrdByprdno" resultType="com.starvincci.qrcodeadmin.pojo.Prdno">
         select * from prdno where prdno=#{prdno}
     </select>
+    <resultMap id="prdfacno" type="com.starvincci.qrcodeadmin.pojo.Scandata">
+        <result column="prdno" property="prdno"/>
+        <result column="facno" property="facno"/>
+        <result column="qty" property="qty"/>
+        <result column="item" property="item"/>
+        <association property="prdmoedl" javaType="com.starvincci.qrcodeadmin.pojo.Prdmoedl">
+            <result column="pritem" property="item" />
+            <result column="descn" property="descn"/>
+        </association>
+        <association property="prdn" javaType="com.starvincci.qrcodeadmin.pojo.Prdno">
+            <result column="prdnum" property="prdnum"></result>
+        </association>
+    </resultMap>
 
     <resultMap id="prd" type="com.starvincci.qrcodeadmin.pojo.Scandata">
         <result column="id" property="id"/>
