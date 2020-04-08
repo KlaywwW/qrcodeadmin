@@ -263,4 +263,11 @@ public class QRController {
         return jsonstr;
     }
 
+    @RequestMapping("/queryseq")
+    @ResponseBody
+    public String queryseq(String str){
+        System.out.println(str);
+        return "";
+    }
+
 }

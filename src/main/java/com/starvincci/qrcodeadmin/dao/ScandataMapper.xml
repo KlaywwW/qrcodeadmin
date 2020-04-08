@@ -56,6 +56,29 @@ INNER JOIN prdno pn ON pn.facno=sd.facno
     <select id="selectPrdByprdno" resultType="com.starvincci.qrcodeadmin.pojo.Prdno">
         select * from prdno where prdno=#{prdno}
     </select>
+
+    <select id="querySeq" resultMap="seq">
+        select prd.item,prd.descn,emp.name,sd.prdno,sd.recdate,sd.seq,sd.bedno from scan_data sd
+        INNER JOIN prdmoedl prd on sd.item=prd.item and sd.facno=prd.facno
+        INNER JOIN employee emp on emp.workno=sd.workno
+        where sd.prdno=#{prdno}
+    </select>
+
+    <resultMap id="seq" type="com.starvincci.qrcodeadmin.pojo.Scandata">
+        <result column="prdno" property="prdno"/>
+        <result column="recdate" property="recdate"/>
+        <result column="seq" property="seq"/>
+        <result column="bedno" property="bedno"/>
+        <association property="prdmoedl" javaType="com.starvincci.qrcodeadmin.pojo.Prdmoedl">
+            <result column="item" property="item"/>
+            <result column="descn" property="descn"/>
+        </association>
+        <association property="emp" javaType="com.starvincci.qrcodeadmin.pojo.Employee">
+            <result column="workno" property="workno"/>
+            <result column="name" property="name"/>
+        </association>
+    </resultMap>
+
     <resultMap id="prdfacno" type="com.starvincci.qrcodeadmin.pojo.Scandata">
         <result column="prdno" property="prdno"/>
         <result column="facno" property="facno"/>

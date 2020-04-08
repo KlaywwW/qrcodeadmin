@@ -27,6 +27,8 @@ public class Scandata {
 
   private Prdmoedl prdmoedl;
   private  Prdno prdn;
+  private Employee emp;
+
 
   @Override
   public String toString() {
@@ -50,6 +52,14 @@ public class Scandata {
             ", prdmoedl=" + prdmoedl +
             ", prdn=" + prdn +
             '}';
+  }
+
+  public Employee getEmp() {
+    return emp;
+  }
+
+  public void setEmp(Employee emp) {
+    this.emp = emp;
   }
 
   public String getRecdate1() {

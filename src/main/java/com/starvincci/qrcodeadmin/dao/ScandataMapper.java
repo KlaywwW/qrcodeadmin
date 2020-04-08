@@ -90,6 +90,13 @@ public interface ScandataMapper {
      */
     List<Prdno> getAllprd();
 
+    /**
+     * 根据制单号查询工序，查询名字等
+     * @param prdno 制单号
+     * @return
+     */
+    List<Scandata> querySeq(String prdno);
+
 
 
 }
