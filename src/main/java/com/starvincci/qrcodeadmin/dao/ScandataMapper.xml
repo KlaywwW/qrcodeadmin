@@ -58,17 +58,19 @@ INNER JOIN prdno pn ON pn.facno=sd.facno
     </select>
 
     <select id="querySeq" resultMap="seq">
-        select prd.item,prd.descn,emp.name,sd.prdno,sd.recdate,sd.seq,sd.bedno from scan_data sd
+        select sd.id,prd.item,prd.descn,emp.name,sd.prdno,sd.recdate,sd.seq,sd.bedno,sd.qty from scan_data sd
         INNER JOIN prdmoedl prd on sd.item=prd.item and sd.facno=prd.facno
         INNER JOIN employee emp on emp.workno=sd.workno
-        where sd.prdno=#{prdno}
+        where sd.prdno=#{prdno} AND sd.seq=#{seq} and sd.bedno=#{bedno}  ORDER BY cast(sd.item as int)
     </select>
 
     <resultMap id="seq" type="com.starvincci.qrcodeadmin.pojo.Scandata">
+        <result column="id" property="id"/>
         <result column="prdno" property="prdno"/>
         <result column="recdate" property="recdate"/>
         <result column="seq" property="seq"/>
         <result column="bedno" property="bedno"/>
+        <result column="qty" property="qty"/>
         <association property="prdmoedl" javaType="com.starvincci.qrcodeadmin.pojo.Prdmoedl">
             <result column="item" property="item"/>
             <result column="descn" property="descn"/>

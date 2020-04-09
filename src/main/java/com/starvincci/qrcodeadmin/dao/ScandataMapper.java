@@ -95,7 +95,7 @@ public interface ScandataMapper {
      * @param prdno 制单号
      * @return
      */
-    List<Scandata> querySeq(String prdno);
+    List<Scandata> querySeq(@Param("prdno") String prdno,@Param("seq")String seq,@Param("bedno")String bedno);
 
 
 

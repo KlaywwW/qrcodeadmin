@@ -267,7 +267,15 @@ public class QRController {
     @ResponseBody
     public String queryseq(String str){
         System.out.println(str);
-        return "";
+        String[] splitstr = str.split("@");
+        System.out.println(splitstr[0].substring(1));
+        String prdno=splitstr[0].substring(1);
+        System.out.println(splitstr[3]);
+        System.out.println(splitstr[2]);
+        List<Scandata> sclist=scandataService.querySeq(prdno,splitstr[3],splitstr[2]);
+        System.out.println(scandataService.querySeq(prdno,splitstr[3],splitstr[2]).size());
+        String jsonstr = JSON.toJSONString(sclist);
+        return jsonstr;
     }
 
 }

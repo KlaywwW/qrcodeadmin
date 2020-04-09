@@ -68,4 +68,11 @@ public class ScandataServiceImpl implements ScandataService {
     public List<Scandata> getdataByfacno(String facno) {
         return scandataMapper.getdataByfacno(facno);
     }
+
+    @Override
+    public List<Scandata> querySeq(String prdno, String seq, String bedno) {
+        System.out.println("size------"+scandataMapper.querySeq(prdno,seq,bedno).size());
+        return scandataMapper.querySeq(prdno,seq,bedno);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.starvincci.qrcodeadmin.pojo;
 
+import java.util.List;
+
 /**
  * @author jdp
  */
