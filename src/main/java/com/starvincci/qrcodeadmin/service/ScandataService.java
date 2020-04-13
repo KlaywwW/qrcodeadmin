@@ -76,7 +76,7 @@ public interface ScandataService {
      * @param facno 款号
      * @return
      */
-    List<Scandata> getdataByfacno(String facno);
+    List<Scandata> getdataByfacno(Prdno prd);
     /**
      * 根据制单号查询工序，查询名字等
      * @param prdno 制单号

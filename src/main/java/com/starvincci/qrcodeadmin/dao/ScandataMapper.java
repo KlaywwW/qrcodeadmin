@@ -79,10 +79,10 @@ public interface ScandataMapper {
 
     /**
      * 查询扫码数据中的
-     * @param facno 款号
+     * @param prd 款号
      * @return
      */
-    List<Scandata> getdataByfacno(String facno);
+    List<Scandata> getdataByfacno(Prdno prd);
 
     /**
      * 获取所有制单数据

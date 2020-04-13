@@ -65,8 +65,8 @@ public class ScandataServiceImpl implements ScandataService {
     }
 
     @Override
-    public List<Scandata> getdataByfacno(String facno) {
-        return scandataMapper.getdataByfacno(facno);
+    public List<Scandata> getdataByfacno(Prdno prd) {
+        return scandataMapper.getdataByfacno(prd);
     }
 
     @Override

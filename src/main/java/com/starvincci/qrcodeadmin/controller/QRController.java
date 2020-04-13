@@ -182,23 +182,6 @@ public class QRController {
 
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        List<Scandata> list2=new ArrayList<>();
-//        for (Scandata scan:list) {
-//
-//            Date date= null;
-//            try {
-//                date = df.parse(scan.getRecdate());
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//
-//            String redate = df.format(date);
-//            scan.setRecdate(redate);
-//            list2.add(scan);
-//        }
-//        System.out.println(list2.size());
-
-
         String jsonstr = JSON.toJSONString(list);
         System.out.println(jsonstr);
         return jsonstr;
@@ -228,7 +211,7 @@ public class QRController {
 //        查出制单表的所有信息
         Prdno prd=scandataService.selectPrdByprdno(prdno);
 
-        List<Scandata> list=scandataService.getdataByfacno(prd.getFacno());
+        List<Scandata> list=scandataService.getdataByfacno(prd);
         System.out.println("before");
         for (Scandata scan:list) {
             System.out.println(scan.getFacno()+"-"+scan.getPrdmoedl().getItem()+"-"+scan.getPrdmoedl().getDescn()+"-");
@@ -265,7 +248,7 @@ public class QRController {
 
     @RequestMapping("/queryseq")
     @ResponseBody
-    public String queryseq(String str){
+    public String queryseq(@RequestBody String str){
         System.out.println(str);
         String[] splitstr = str.split("@");
         System.out.println(splitstr[0].substring(1));
