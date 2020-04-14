@@ -64,6 +64,20 @@ INNER JOIN prdno pn ON pn.facno=sd.facno
         where sd.prdno=#{prdno} AND sd.seq=#{seq} and sd.bedno=#{bedno}  ORDER BY cast(sd.item as int)
     </select>
 
+    <select id="selectworkNo" resultType="com.starvincci.qrcodeadmin.pojo.Employee">
+        select * from employee where name=#{name}
+    </select>
+
+    <select id="selectMaxWorkNo" resultType="int">
+        select MAX(workno) from employee
+    </select>
+
+    <insert id="insertEmp" parameterType="com.starvincci.qrcodeadmin.pojo.Employee">
+        insert into employee values(#{workno},#{name})
+    </insert>
+
+
+
     <resultMap id="seq" type="com.starvincci.qrcodeadmin.pojo.Scandata">
         <result column="id" property="id"/>
         <result column="prdno" property="prdno"/>

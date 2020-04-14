@@ -261,4 +261,27 @@ public class QRController {
         return jsonstr;
     }
 
+    @RequestMapping("/getworkno")
+    @ResponseBody
+    public String getworkno(@RequestBody String str){
+
+        System.out.println(str);
+        Employee employee=scandataService.selectworkNo(str);
+        if (employee==null){
+            Employee emp2=new Employee();
+            int maxworkno=scandataService.selectMaxWorkNo();
+            int max=maxworkno+1;
+            System.out.println(String.valueOf(max));
+            emp2.setWorkno(String.valueOf(max));
+            emp2.setName(str);
+            int res=scandataService.insertEmp(emp2);
+            if (res>0){
+                return emp2.getWorkno();
+            }
+        }
+
+        return employee.getWorkno();
+    }
+
+
 }

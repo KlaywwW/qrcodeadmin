@@ -96,6 +96,25 @@ public interface ScandataMapper {
      * @return
      */
     List<Scandata> querySeq(@Param("prdno") String prdno,@Param("seq")String seq,@Param("bedno")String bedno);
+    /**
+     * 查询工号
+     * @param name
+     * @return
+     */
+    Employee selectworkNo(String name);
+
+    /**
+     * 查询最大工号
+     * @return
+     */
+    Integer selectMaxWorkNo();
+
+    /**
+     * 添加员工
+     * @param employee
+     * @return
+     */
+    int insertEmp(Employee employee);
 
 
 

@@ -55,6 +55,21 @@ public class ScandataServiceImpl implements ScandataService {
     }
 
     @Override
+    public Employee selectworkNo(String name) {
+        return scandataMapper.selectworkNo(name);
+    }
+
+    @Override
+    public Integer selectMaxWorkNo() {
+        return scandataMapper.selectMaxWorkNo();
+    }
+
+    @Override
+    public int insertEmp(Employee employee) {
+        return scandataMapper.insertEmp(employee);
+    }
+
+    @Override
     public List<Prdno> getAllprd() {
         return scandataMapper.getAllprd();
     }
