@@ -23,9 +23,9 @@ public class Scandata {
   private String zerodate;//当日0点
   private String sumqty;//总和
 
-
-
     private String recdate1;
+    private String name;
+    private String time;
 
   private Prdmoedl prdmoedl;
   private  Prdno prdn;
@@ -51,9 +51,28 @@ public class Scandata {
             ", zerodate='" + zerodate + '\'' +
             ", sumqty='" + sumqty + '\'' +
             ", recdate1='" + recdate1 + '\'' +
+            ", name='" + name + '\'' +
+            ", time='" + time + '\'' +
             ", prdmoedl=" + prdmoedl +
             ", prdn=" + prdn +
+            ", emp=" + emp +
             '}';
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getTime() {
+    return time;
+  }
+
+  public void setTime(String time) {
+    this.time = time;
   }
 
   public Employee getEmp() {

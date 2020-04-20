@@ -36,7 +36,11 @@ public class QRController {
         String[] splitstr = str.split("@");
         int splistlength = splitstr.length;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        SimpleDateFormat dfTime= new SimpleDateFormat("HH:mm:ss");
+
+
         String time = df.format(new Date());// new Date()为获取当前系统时间
+        String time2= dfTime.format(new Date());
 
         Scandata scandata = null;
         if (splistlength == 5) {
@@ -62,6 +66,8 @@ public class QRController {
                 //日期
                 scandata.setRecdate(time);
                 scandata.setRecdate1(time);
+                //hh:mm:ss
+                scandata.setTime(time2);
                 Scandata scan = scandataService.checkOnly(scandata);
                 if (scan == null) {
                     //添加
@@ -91,6 +97,8 @@ public class QRController {
             //日期
             scandata.setRecdate(time);
             scandata.setRecdate1(time);
+            //hh:mm:ss
+            scandata.setTime(time2);
             Scandata scan = scandataService.checkOnly(scandata);
             if (scan == null) {
                 //添加

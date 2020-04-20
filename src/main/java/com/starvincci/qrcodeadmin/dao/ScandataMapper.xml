@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.starvincci.qrcodeadmin.dao.ScandataMapper">
    <insert id="addScandata" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata">
-       INSERT INTO scan_data VALUES (#{workno},#{prdno},#{facno},#{bedno},#{seq},#{color},#{size},#{item},#{descn},#{qty},#{recqty},#{recdate},#{recdate1});
+       INSERT INTO scan_data VALUES (#{workno},#{prdno},#{facno},#{bedno},#{seq},#{color},#{size},#{item},#{descn},#{qty},#{recqty},#{recdate},#{recdate1},#{name},#{time});
    </insert>
 
     <select id="selectScandataByworkNo" parameterType="com.starvincci.qrcodeadmin.pojo.Scandata" resultType="com.starvincci.qrcodeadmin.pojo.Scandata" resultMap="prd">
