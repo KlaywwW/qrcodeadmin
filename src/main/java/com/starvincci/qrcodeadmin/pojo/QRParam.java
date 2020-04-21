@@ -6,19 +6,17 @@ package com.starvincci.qrcodeadmin.pojo;
 public class QRParam {
     private String strs;//扫描的结果
     private String jobNum;//扫描时输入的工号
+    private String name;//姓名
     private String  facnostr;//工序字符串
     private String startDate;//开始时间
     private String endDate;//结束时间
 
-    @Override
-    public String toString() {
-        return "QRParam{" +
-                "strs='" + strs + '\'' +
-                ", jobNum='" + jobNum + '\'' +
-                ", facnostr='" + facnostr + '\'' +
-                ", startDate='" + startDate + '\'' +
-                ", endDate='" + endDate + '\'' +
-                '}';
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFacnostr() {

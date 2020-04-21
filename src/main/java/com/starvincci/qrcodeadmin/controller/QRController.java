@@ -63,6 +63,7 @@ public class QRController {
                 scandata.setItem(splitno[i]);
                 //工号
                 scandata.setWorkno(qrParam.getJobNum());
+                scandata.setName(qrParam.getName());
                 //日期
                 scandata.setRecdate(time);
                 scandata.setRecdate1(time);
@@ -94,6 +95,7 @@ public class QRController {
             scandata.setQty(Integer.parseInt(splitstr[5]));
             //工号
             scandata.setWorkno(qrParam.getJobNum());
+            scandata.setName(qrParam.getName());
             //日期
             scandata.setRecdate(time);
             scandata.setRecdate1(time);
